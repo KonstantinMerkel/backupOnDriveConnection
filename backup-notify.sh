@@ -2,7 +2,12 @@
 # Description: Triggers btrbk and sends desktop notifications
 
 # Configuration
-TARGET_USER="YOUR_USERNAME_HERE"
+CONFIG_FILE="/etc/linuxscripts/backup.conf"
+if [ -f "$CONFIG_FILE" ]; then
+    source "$CONFIG_FILE"
+fi
+
+TARGET_USER="${TARGET_USER:-YOUR_USERNAME_HERE}"
 USER_ID=$(id -u $TARGET_USER)
 
 # Function to send notification as the user

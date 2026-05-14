@@ -1,0 +1,12 @@
+# Backup System Configuration
+# Copy this to /etc/linuxscripts/backup.conf and fill in your values
+
+# The local user who should receive notifications
+TARGET_USER=your_username
+
+# The mount point where your backup drive appears
+BACKUP_MOUNT=/run/media/your_username/Backup
+
+# The UUID of your backup drive (run 'lsblk -f' to find it)
+# Note: This is used by the installation script to set up the udev rule
+DRIVE_UUID=your-drive-uuid-here

@@ -5,35 +5,26 @@ This system automatically triggers a `btrbk` backup whenever a specific external
 ## Features
 - **Automatic Trigger**: Uses `udev` to detect the drive via UUID.
 - **Visual Feedback**: Desktop notifications for start, success, and failure.
-- **Safety**: Wait logic ensures the drive is fully mounted before starting.
-
-## Prerequisites
-- `btrbk` installed and configured.
-- `libnotify` (for `notify-send`).
+- **Configuration-Driven**: Keeps your personal data in a separate config file.
 
 ## Setup
 
-1. **Find your Drive UUID**:
-   Plug in your drive and run:
+1. **Create Configuration**:
    ```bash
-   lsblk -dno UUID /dev/sdXY  # Replace sdXY with your drive partition
+   sudo mkdir -p /etc/linuxscripts/
+   sudo cp backup.conf.example /etc/linuxscripts/backup.conf
+   ```
+   Edit `/etc/linuxscripts/backup.conf` with your specific values (UUID, username, etc.).
+
+2. **Run Installation**:
+   ```bash
+   chmod +x install.sh
+   ./install.sh
    ```
 
-2. **Configure the scripts**:
-   - Update `99-btrbk-trigger.rules` with your drive's UUID.
-   - Update `backup-notify.sh` with your local username.
-   - Update `btrbk-backup.service` with your drive's mount path.
-
-3. **Install**:
-   ```bash
-   sudo cp 99-btrbk-trigger.rules /etc/udev/rules.d/
-   sudo cp btrbk-backup.service /etc/systemd/system/
-   sudo cp backup-notify.sh /usr/local/bin/
-   sudo chmod +x /usr/local/bin/backup-notify.sh
-   ```
-
-4. **Reload**:
-   ```bash
-   sudo udevadm control --reload-rules
-   sudo systemctl daemon-reload
-   ```
+## Files
+- `backup.conf.example`: Template for your private configuration.
+- `install.sh`: Automatically applies your config to the system files.
+- `99-btrbk-trigger.rules`: Udev rule (auto-populated by install script).
+- `backup-notify.sh`: Main script with notification logic.
+- `btrbk-backup.service`: Systemd service (auto-populated by install script).

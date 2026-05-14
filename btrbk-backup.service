@@ -6,9 +6,9 @@ StartLimitBurst=5
 
 [Service]
 Type=oneshot
+EnvironmentFile=-/etc/linuxscripts/backup.conf
 # Wait up to 30 seconds for the mountpoint to appear
-# Replace with your specific mount path
-ExecStartPre=/usr/bin/timeout 30s bash -c 'until mountpoint -q /path/to/your/backup/mount; do sleep 1; done'
+ExecStartPre=/usr/bin/timeout 30s bash -c 'until mountpoint -q "${BACKUP_MOUNT:-/path/to/your/backup/mount}"; do sleep 1; done'
 ExecStart=/usr/local/bin/backup-notify.sh
 User=root
 StandardOutput=journal
