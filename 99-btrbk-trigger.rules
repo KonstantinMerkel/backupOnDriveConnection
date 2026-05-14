@@ -1,0 +1,6 @@
+# Run blkid on add/change to ensure we have the UUID
+ACTION!="remove", SUBSYSTEM=="block", IMPORT{program}="/usr/sbin/blkid -o udev -p $tempnode"
+
+# If the UUID matches, trigger the backup
+# Replace with your drive's UUID (found via 'lsblk -f')
+ENV{ID_FS_UUID}=="YOUR_DRIVE_UUID_HERE", TAG+="systemd", ENV{SYSTEMD_WANTS}+="btrbk-backup.service"
